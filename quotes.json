@@ -1,0 +1,18 @@
+
+[
+    {
+        "id":"1",
+        "author":"Jeff Atwoods",
+        "quote":"“There are two hard things in computer science: cache invalidation, naming things, and off-by-one errors.”"
+    },
+    {
+        "id":"2",
+        "author":"Harold Abelson",
+        "quote":"“Programs must be written for people to read, and only incidentally for machines to execute.”"
+    },
+    {
+        "id":"3",
+        "author":"John Woods",
+        "quote":"“Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live”"
+    }
+]

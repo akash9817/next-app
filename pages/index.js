@@ -1,88 +1,78 @@
-import React from 'react'
-import Head from 'next/head'
-import Nav from '../components/nav'
+import React from 'react';
+import Layout from '../components/layout';
+import Link from 'next/link';
+import * as quotes from '../quotes.json'
 
-const Home = () => (
+class Home extends React.Component {
+
+
+  componentDidMount(){
+    localStorage.setItem('quotes',JSON.stringify(quotes.default))
+  }
+
+  render(){
+
+    if(quotes.default.length == 0){
+      return
+    }else{
+   var quotesData =  quotes.default.map(q => {
+      return(
+        <Link href={`quote?id=${q.id}`} key={q.id}>
+        <div className="column"  style={{display:'flex',cursor:'pointer'}}>
+        <div className="card">
+              <div className="card-content">
+                <p className="title">
+                  {q.quote}
+                </p>
+                <p className="subtitle">
+                  {q.author}
+                </p>
+            </div>
+        </div>
+        </div>
+      </Link>
+      )
+    })
+    }
+return(
   <div>
-    <Head>
-      <title>Home</title>
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
-
-    <Nav />
-
-    <div className="hero">
-      <h1 className="title">Welcome to Next.js!</h1>
-      <p className="description">
-        To get started, edit <code>pages/index.js</code> and save to reload.
-      </p>
-
-      <div className="row">
-        <a href="https://nextjs.org/docs" className="card">
-          <h3>Documentation &rarr;</h3>
-          <p>Learn more about Next.js in the documentation.</p>
-        </a>
-        <a href="https://nextjs.org/learn" className="card">
-          <h3>Next.js Learn &rarr;</h3>
-          <p>Learn about Next.js by following an interactive tutorial!</p>
-        </a>
-        <a
-          href="https://github.com/zeit/next.js/tree/master/examples"
-          className="card"
-        >
-          <h3>Examples &rarr;</h3>
-          <p>Find other example boilerplates on the Next.js GitHub.</p>
-        </a>
+    <Layout>
+      <div className="header">
+          <h3 className="is-size-3 home has-text-centered">Home</h3>
       </div>
-    </div>
-
+      <div className="columns">
+        <div className="column is-12">
+            <figure className="image ">
+                <img src="https://www.arohatours.co.nz/media/1645/banner_queenstown-g.jpg?mode=crop&height=700&width=1920&quality=80"/>
+            </figure>
+        </div>    
+      </div>
+       <div className="container">
+              <div className="columns ">
+                {quotesData}
+              </div>
+            </div>
+    </Layout>
     <style jsx>{`
-      .hero {
-        width: 100%;
-        color: #333;
-      }
-      .title {
-        margin: 0;
-        width: 100%;
-        padding-top: 80px;
-        line-height: 1.15;
-        font-size: 48px;
-      }
-      .title,
-      .description {
-        text-align: center;
-      }
-      .row {
-        max-width: 880px;
-        margin: 80px auto 40px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-      }
-      .card {
-        padding: 18px 18px 24px;
-        width: 220px;
-        text-align: left;
-        text-decoration: none;
-        color: #434343;
-        border: 1px solid #9b9b9b;
-      }
-      .card:hover {
-        border-color: #067df7;
-      }
-      .card h3 {
-        margin: 0;
-        color: #067df7;
-        font-size: 18px;
-      }
-      .card p {
-        margin: 0;
-        padding: 12px 0 0;
-        font-size: 13px;
-        color: #333;
+      .home{
+        padding:0 50px;
       }
     `}</style>
   </div>
-)
-
+  )
+ }
+}
 export default Home
+
+{/* <section className="hero is-primary">
+<div className="hero-body">
+    <div className="container">
+    <h1 className="title">
+        Winners Never Quit and Quitters Never Win
+    </h1>
+    <h2 className="subtitle">
+        "Akash Verma"
+    </h2>
+    </div>
+</div>
+</section> */}
