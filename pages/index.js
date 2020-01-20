@@ -1,78 +1,123 @@
-import React from 'react';
+
 import Layout from '../components/layout';
-import Link from 'next/link';
-import * as quotes from '../quotes.json'
+import Router from 'next/router'
+import {Component} from 'react'
 
-class Home extends React.Component {
+class Login extends Component {
 
-
-  componentDidMount(){
-    localStorage.setItem('quotes',JSON.stringify(quotes.default))
-  }
-
-  render(){
-
-    if(quotes.default.length == 0){
-      return
-    }else{
-   var quotesData =  quotes.default.map(q => {
-      return(
-        <Link href={`quote?id=${q.id}`} key={q.id}>
-        <div className="column"  style={{display:'flex',cursor:'pointer'}}>
-        <div className="card">
-              <div className="card-content">
-                <p className="title">
-                  {q.quote}
-                </p>
-                <p className="subtitle">
-                  {q.author}
-                </p>
-            </div>
-        </div>
-        </div>
-      </Link>
-      )
-    })
+    state = {
+        mob:'',
+        showError:false,
     }
-return(
-  <div>
-    <Layout>
-      <div className="header">
-          <h3 className="is-size-3 home has-text-centered">Home</h3>
-      </div>
-      <div className="columns">
-        <div className="column is-12">
-            <figure className="image ">
-                <img src="https://www.arohatours.co.nz/media/1645/banner_queenstown-g.jpg?mode=crop&height=700&width=1920&quality=80"/>
-            </figure>
-        </div>    
-      </div>
-       <div className="container">
-              <div className="columns ">
-                {quotesData}
-              </div>
-            </div>
-    </Layout>
-    <style jsx>{`
-      .home{
-        padding:0 50px;
-      }
-    `}</style>
-  </div>
-  )
- }
-}
-export default Home
 
-{/* <section className="hero is-primary">
-<div className="hero-body">
-    <div className="container">
-    <h1 className="title">
-        Winners Never Quit and Quitters Never Win
-    </h1>
-    <h2 className="subtitle">
-        "Akash Verma"
-    </h2>
+    handleChange = (e) => {
+        this.setState({mob:e.target.value})
+    }
+
+    validateform = (e) => {
+        e.preventDefault()
+        var mob = this.state.mob
+        if(/^[5-9+]\d{9}$/.test(mob)){
+            console.log("mob")
+            this.setState({showError:false},() => {Router.push('/')}) 
+        }else{
+            this.setState({showError:true})
+        }
+    }
+    
+    signin = (e) => {
+        
+        e.preventDefault()
+        var flag = false
+        var pos = null
+        var userInfo = e.target
+        var data = JSON.parse(localStorage.getItem('data'))
+        for(var i = 0; i < data.length; i++){
+            if(data[i].mob === userInfo.mob.value && data[i].password === userInfo.password.value){
+                flag = true
+                pos = i
+                break;
+            }
+        }
+
+        if(flag === true) {
+            localStorage.setItem('pos',pos)
+            localStorage.setItem('login',true)
+            Router.push('/home')
+        }
+        else{
+                this.setState({showError:true})
+        }
+    }
+
+    render(){
+       
+        return(
+     <div>
+        <Layout>
+            <div className="form-container">
+               <h1 className="is-size-2">Login to your account</h1> 
+               <div className="form-box"> 
+               <form className="box" onSubmit={this.signin}> 
+               {this.state.showError ? 
+                    <div className="has-background-danger error">
+                        <p className="is-size-4">Unable to Login check your mobile number and password</p>
+                    </div>
+                    :
+                    null}
+                <div className="field">
+                        <label className="label">Mobile number</label>
+                    <div className="control">
+                        <input className="input"
+                        name="mob"
+                         type="tel" 
+                         onChange={(e) => this.handleChange(e)} 
+                         value={this.state.mob}
+                         placeholder="Mobile Number"
+                         required/>
+                    </div> 
+                </div>
+                <div className="field">
+                        <label className="label">Password</label>
+                    <div className="control">
+                        <input
+                          name="password"
+                          className="input" 
+                          type="password" 
+                          placeholder="Password" 
+                          required/>
+                    </div>
+                </div>
+                <div className="field">
+                    <button className="button is-success" type="submit" >
+                        Login
+                    </button>
+                </div>
+                </form> 
+                </div>
+            </div>
+        </Layout>
+        <style jsx>{`
+     .form-container{
+       width:60%;
+       margin-left:auto;
+       margin-right:auto;
+     }
+     .label{
+         text-align:left;
+     }
+     .error{
+         color:white;
+         margin-top:6px;
+         border-radius:5px;
+         padding: 15px 0 15px 10px;
+     }
+      `}
+   </style>
     </div>
-</div>
-</section> */}
+        )
+    }
+}
+
+export default Login
+

@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import Link from 'next/link';
+import  Router  from 'next/router';
 
 
 class Nav extends Component {
@@ -17,7 +18,6 @@ class Nav extends Component {
       var data = JSON.parse(localStorage.getItem('data'))
       var pos = localStorage.getItem('pos')
       this.setState({name:data[pos].name})
-
     }
     
   }
@@ -26,6 +26,7 @@ class Nav extends Component {
     localStorage.setItem('login', false)
     this.setState({login:false}) 
     alert('successfully logout')
+    Router.push('/')
   }
 
   render(){
@@ -33,14 +34,12 @@ return(
  <div> 
    <nav className="navbar is-primary mynav">
    <div className="navbar-brand">
-   <Link href="/">
      <a className="navbar-item">
       App
     </a>
-    </Link> 
   </div>
   <div className="navbar-start">
-          <Link href="/" >
+          <Link href="/home" >
             <a className="navbar-item" >Home</a>
           </Link>
           <Link href="/about">
@@ -91,7 +90,7 @@ return(
       <div className="navbar-end">
         <div className="navbar-item">
         <div className="buttons">  
-         <Link href="/login"> 
+         <Link href="/"> 
           <a className="button is-primary is-inverted is-outlined">
             <strong>Login</strong>
           </a>

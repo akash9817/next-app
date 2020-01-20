@@ -1,18 +1,30 @@
-import Layout from '../components/layout'
+import Layout from '../components/layout';
+import Router from 'next/router'
+import { Component } from 'react';
 
-const About = () => (
+class About extends Component {
 
+componentDidMount(){
+    var logStatus = localStorage.getItem('login') === 'true'
+    console.log(localStorage.getItem('login') === 'true')
+    if(!logStatus){
+      Router.push('/')
+    }
+  }
+
+render(){
+return(
     <div>
         <div>
             <Layout>
             <h1 className="is-size-2">About</h1>
-            <section class="hero is-warning">
-                <div class="hero-body">
-                    <div class="container">
-                    <h1 class="title">
+            <section className="hero is-warning">
+                <div className="hero-body">
+                    <div className="container">
+                    <h1 className="title">
                         GIVE THE BEST
                     </h1>
-                    <h2 class="subtitle">
+                    <h2 className="subtitle">
                         "Akash Verma"
                     </h2>
                     </div>
@@ -21,5 +33,7 @@ const About = () => (
             </Layout>
         </div>
     </div>
-)
+    )
+}
+}
 export default About

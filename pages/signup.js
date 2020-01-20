@@ -41,6 +41,15 @@ class Signup extends Component {
         e.preventDefault()
         var data = this.state.data
         var userInfo = e.target
+        var mobNumber = JSON.parse(localStorage.getItem('data'))
+        
+        if(mobNumber != undefined){
+            var numExist = mobNumber.find(ele => ele.mob === userInfo.mob.value)
+            if(numExist){
+                this.setState({showError:true})
+                return
+            }
+        }
         var userData = {
             name:userInfo.name.value,
             email:userInfo.email.value,
@@ -49,9 +58,10 @@ class Signup extends Component {
         }
         data.push(userData)
         localStorage.setItem('data',JSON.stringify(data))
-        this.setState({data})
+        this.setState({data,showError:false})
         userInfo.reset()
         alert('successfully signup')
+    
     }
 
     render(){
@@ -62,6 +72,12 @@ class Signup extends Component {
                 <h1 className="is-size-2">Sign up</h1>
                <div className="form-box"> 
                <form className="box" onSubmit={this.signup}> 
+               {this.state.showError ? 
+                    <div className="has-background-danger error">
+                        <p className="is-size-4">Number already Exist!</p>
+                    </div>
+                    :
+                    null}
                <div className="field">
                         <label className="label">Name</label>
                     <div className="control">
